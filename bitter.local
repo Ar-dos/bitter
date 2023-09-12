@@ -1,0 +1,45 @@
+server {
+    listen 80;
+    server_name bitter.local;
+    root /home/newprog/projects/sanctum/public;
+
+    index index.php index.html;   
+ 
+    # Access Restrictions
+    allow       127.0.0.1;
+    deny        all;
+ 
+  location / {
+        proxy_redirect                      off;
+        proxy_set_header Host               $host;
+        proxy_set_header X-Real-IP          $remote_addr;
+        proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto  $scheme;
+        proxy_read_timeout          1m;
+        proxy_connect_timeout       1m;
+        proxy_pass                          http://127.0.0.1:3000;
+    }
+
+    location /api/ {
+        try_files $uri $uri/ /index.php$is_args$args;
+    
+}
+	
+  
+    
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;	
+        fastcgi_pass unix:/var/run/php8.1-fpm.sock;
+    }	
+	
+    charset utf-8;
+	
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+    location ~ /\.ht {
+        deny all;
+    }
+	
+   	
+	
+}
