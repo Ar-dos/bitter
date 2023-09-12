@@ -1,0 +1,28 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "latest",
+    "@nuxtjs/tailwindcss": "^6.8.0",
+    "nuxt": "^3.7.0"
+  },
+  "dependencies": {
+    "@nuxtjs/auth": "^4.9.1",
+    "@pinia/nuxt": "^0.4.11",
+    "@popperjs/core": "^2.11.8",
+    "axios": "^1.5.0",
+    "bootstrap": "^5.3.1",
+    "bootstrap-vue": "^2.23.1",
+    "pinia": "^2.1.6"
+  },
+  "overrides": {
+    "vue": "latest"
+  }
+}
