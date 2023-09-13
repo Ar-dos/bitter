@@ -4,7 +4,7 @@ const { data: posts_for_tag } = await useApiFetch('/tags/' + tag)
 </script>
 
 <template>
-   <div class="grid h-screen place-items-center">
+   <div class="grid h-screen place-items-center justify-items-top">
     <div v-for="post in posts_for_tag">
       <post :post = "post"/>
     </div>

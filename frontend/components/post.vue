@@ -1,39 +1,59 @@
 <script setup>
 
-const { post } = defineProps(['post']);
-const postComputed = computed(() => {
-
-  post.tags.forEach((tag)=>{
-    post.body = post.body.replace( '#' +
-        tag.title,
-        "<a href='/hash/" + tag.title +"' class=\"font-medium text-blue-600 dark:text-blue-500 hover:underline\">" +'#' + tag.title + "</a>"
-    )
-  });
-
-  post.mentions.forEach((mention)=>{
-    post.body = post.body.replace( '@' +
-        mention.name,
-        "<a href='/" + mention.name +"' class=\"font-medium text-blue-600 dark:text-blue-500 hover:underline\">" +'@' + mention.name + "</a>"
-    )
-  });
-
-  return post.body;
-});
 import {useAuthStore} from "~/stores/useAuthStore";
 
 const auth = useAuthStore();
 
+const { post } = defineProps(['post']);
+
+async function follow(id) {
+
+
+  const {error} = await auth.follow(
+      { following_user_id: auth.user.id,
+    followed_user_id: id}
+  );
+
+  console.log(error.value);
+
+  if(!error.value){
+    await auth.fetchFollowings();
+  }
+
+}
+
+async function unfollow(id) {
+
+
+  const {error} = await auth.unfollow(
+      { following_user_id: auth.user.id,
+        followed_user_id: id}
+  );
+
+  console.log(error.value);
+
+  if(!error.value){
+    await auth.fetchFollowings();
+  }
+
+}
+
+
+async function test() {
+  console.log('test');
+}
+
 </script>
 
 <template>
-  <div class="flex w-full h-auto cursor-pointer hover:bg-lowWhite rounded-2xl border-2 shadow-md">
+  <div class="flex w-full h-auto hover:bg-lowWhite rounded-2xl border-2 shadow-md">
     <div class="p-3">
       <img src="/download.png" class="w-[45px] rounded-full" alt="post profil image">
     </div>
     <div class="w-full">
       <div class="text-sm px-2 flex  items-center justify-start gap-2 text-normalWhite mt-2">
-        <h3 class="font-bold hover:underline"  @click="$router.push(`/${post.user.name}`)"> {{ post.user.name}} </h3>
-        <span class="text-lowsWhite font-light flex-grow">@{{post.user.name}} · {{post.created_at}}</span>
+        <h3 class="font-bold hover:underline cursor-pointer"  @click="$router.push(`/${post.user.name}`)"> {{ post.user.name}} </h3>
+        <span class="text-lowsWhite font-light flex-grow"> ·  {{post.created_at}}</span>
         <div v-if="auth.isLoggedIn && auth.user.name != post.user.name" class="flex justify-start">
           <button @click="unfollow(post.user.id)" v-if="auth.followings.some(function(o){return o['name'] === post.user.name})"
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-4 rounded">
@@ -52,15 +72,22 @@ const auth = useAuthStore();
                 </svg>
             </span>
       </div>
-      <div class="text-sm text-normalWhite" id="body" v-html="postComputed">
-      </div>
-      <div class="text-sm text-normalWhite">
-<!--        <component :is="postC"/>-->
+
+
+
+      <span class="text-sm text-normalWhite" v-for="part of post.body.split(/(@\w+|#\w+)/g)">
+        <router-link v-if="(part[0] == '@' && post.mentions.some(function(o){return '@' + o['name'] === part}))" :to="`/${part.slice(1)}`" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{part}}</router-link>
+        <router-link v-else-if="(part[0] == '#' && post.tags.some(function(o){return '#' + o['title'] === part}))" :to="`/hash/${part.slice(1)}`" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{part}}</router-link>
+        <template v-else>{{part}}</template>
+      </span>
+
+      <div class="text-sm text-normalWhite" id="body">
+        {{post.body}}
       </div>
       <div class="text-sm text-normalWhite">
         <br>
         Tags:
-        <button v-for="tag in post.tags" @click="$router.push(`/hash/${tag.title}`)"
+        <button v-for="tag in post.tags" onclick="test()"
                 class="font-medium text-blue-600 dark:text-blue-500 hover:underline">#{{tag.title}}</button>
       </div>
       <div class="text-sm text-normalWhite">
@@ -69,6 +96,7 @@ const auth = useAuthStore();
         <button v-for="mention in post.mentions" @click="$router.push(`/${mention.name}`)"
                 class="font-medium text-blue-600 dark:text-blue-500 hover:underline">@{{mention.name}}</button>
       </div>
+
 <!--      <div class="pr-3 mt-2">-->
 <!--        <img src="/images/post1.jpg" class="object-cover border-[1px] border-lowsWhite rounded-lg"-->
 <!--             alt="post image">-->

@@ -28,10 +28,10 @@ class Post extends Model
         return $this->belongsToMany(User::class,'post_user');
     }
 
-    public function getCreatedAtAttribute($date)
-    {
-        return Carbon::parse( $date)->format('h:m d.m.y');
-    }
+//    public function getCreatedAtAttribute($date)
+//    {
+//        return Carbon::parse( $date)->format('y.m.d h:m');
+//    }
 
     public function getUpdatedAtAttribute($date)
     {

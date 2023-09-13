@@ -48,21 +48,6 @@
 
     </div>
   </div>
-<!--  <div>-->
-<!--    <form @submit.prevent="message">-->
-<!--      <div>-->
-<!--        <label>Message: </label>-->
-<!--        <textarea-->
-<!--            type="text"-->
-<!--            v-model="form.message"-->
-<!--            class="form-control"-->
-<!--            placeholder="message"-->
-<!--            required="required"-->
-<!--        ></textarea>-->
-<!--      </div>-->
-<!--      <button type="submit">Submit</button>-->
-<!--    </form>-->
-<!--  </div>-->
 </template>
 
 <style scoped>

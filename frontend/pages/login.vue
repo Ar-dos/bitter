@@ -34,7 +34,7 @@ definePageMeta({
 
 <template>
   <div class="sm:mx-auto sm:w-full sm:max-w-md">
-    <div class="bg-white px-4 shadow sm:rounded-lg sm:px-10">
+    <div class="bg-white px-4 py-4 shadow sm:rounded-lg sm:px-10">
       <form @submit.prevent="login">
         <div>
           <label for="email" class="block text-sm font-medium leading-5  text-gray-700">Email address</label>
@@ -82,32 +82,6 @@ definePageMeta({
 
     </div>
   </div>
-<!--  <div>-->
-<!--    <form @submit.prevent="login">-->
-<!--      <div>-->
-<!--        <label>Login: </label>-->
-<!--        <input-->
-<!--            type="text"-->
-<!--            v-model="form.email"-->
-<!--            class="form-control"-->
-<!--            placeholder="email"-->
-<!--            required="required"-->
-<!--        >-->
-<!--      </div>-->
-<!--      <div>-->
-<!--        <input-->
-<!--            type="text"-->
-<!--            v-model="form.password"-->
-<!--            class="form-control"-->
-<!--            placeholder="password"-->
-<!--            required="required"-->
-<!--        >-->
-<!--      </div>-->
-<!--      <hr>-->
-<!--&lt;!&ndash;      <div class="success" v-if="isSuccess">We received your submission, thank you!</div>&ndash;&gt;-->
-<!--      <button type="submit">Submit</button>-->
-<!--    </form>-->
-<!--  </div>-->
 </template>
 
 <style scoped>

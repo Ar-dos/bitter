@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use PhpParser\ErrorHandler\Collecting;
 
@@ -17,6 +18,7 @@ class PostService
             $data['user'] = $post->user()->first();
             $data['tags'] = $post->tags()->get();
             $data['mentions'] = $post->mentions()->get(['name']);
+            $data['created_at'] = Carbon::parse($data['created_at'])->format('h:m d.m.y');
             $result[] = $data;
         }
         return $result;
