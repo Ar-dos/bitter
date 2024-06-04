@@ -17,7 +17,10 @@ class FollowController extends Controller
     {
         $followed_id =  $request->get('followed_user_id');
         $following_id =  $request->get('following_user_id');
-        $follows = DB::table('follows')->where('followed_user_id', '=', $followed_id)->where('following_user_id', '=',  $following_id )->delete();
+        $follows = DB::table('follows')
+            ->where('followed_user_id', '=', $followed_id)
+            ->where('following_user_id', '=',  $following_id )
+            ->delete();
         return $follows;
     }
 }
