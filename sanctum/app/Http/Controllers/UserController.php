@@ -15,9 +15,7 @@ class UserController extends Controller
 
         return($user->posts);
     }
-
-    // TODO : code duplication in ALL controllers
-
+    
     public function show(PostService $service,string $username) {
         $posts =  User::where('name',$username) -> first()->posts;
 
@@ -39,5 +37,4 @@ class UserController extends Controller
         else
             return null;
     }
-
 }
